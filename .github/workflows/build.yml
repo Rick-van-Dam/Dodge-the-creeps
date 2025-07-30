@@ -5,8 +5,8 @@ on: push
 
 env:
   GODOT_VERSION: 4.4
-  EXPORT_NAME: test-project
-  PROJECT_PATH: test-project
+  EXPORT_NAME: export
+  PROJECT_PATH: Dodge-the-creeps
 
 jobs:
   export-windows:
