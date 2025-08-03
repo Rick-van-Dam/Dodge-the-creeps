@@ -6,9 +6,29 @@ on: push
 env:
   GODOT_VERSION: 4.4.1
   EXPORT_NAME: Dodge the creeps
-  PROJECT_PATH: .
+  PROJECT_PATH: ./src/Dodge the creeps
 
 jobs:
+  run-tests:
+    name: Run tests
+    runs-on: ubuntu-22.04  # Use 22.04 with godot 4
+    container:
+      image: barichello/godot-ci:mono-4.4.1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'          
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.config/
+          mv /root/.config/godot ~/.config/godot
+      - name: Run gdUnit4Net Tests with dotnet test
+        run: dotnet test "./src/Dodge the creeps.Tests"          
+
   export-windows:
     name: Windows Export
     runs-on: ubuntu-22.04  # Use 22.04 with godot 4
@@ -31,7 +51,7 @@ jobs:
         run: |
           mkdir -v -p build/windows
           EXPORT_DIR="$(readlink -f build)"
-          cd $PROJECT_PATH
+          cd "$PROJECT_PATH"
           godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -57,7 +77,7 @@ jobs:
         run: |
           mkdir -v -p build/linux
           EXPORT_DIR="$(readlink -f build)"
-          cd $PROJECT_PATH
+          cd "$PROJECT_PATH"
           godot --headless --verbose --export-release "Linux" "$EXPORT_DIR/linux/$EXPORT_NAME.x86_64"
       - name: Upload Artifact
         uses: actions/upload-artifact@v4

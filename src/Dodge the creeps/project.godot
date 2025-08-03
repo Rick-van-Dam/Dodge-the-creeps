@@ -24,6 +24,7 @@ window/stretch/mode="canvas_items"
 [dotnet]
 
 project/assembly_name="Dodge the creeps"
+project/solution_directory="src"
 
 [input]
 
