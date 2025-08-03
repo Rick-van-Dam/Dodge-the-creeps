@@ -6,7 +6,7 @@ on: push
 env:
   GODOT_VERSION: 4.4.1
   EXPORT_NAME: Dodge the creeps
-  PROJECT_PATH: './src/Dodge the creeps'
+  PROJECT_PATH: ./src/Dodge the creeps
 
 jobs:
   export-windows:
@@ -31,7 +31,7 @@ jobs:
         run: |
           mkdir -v -p build/windows
           EXPORT_DIR="$(readlink -f build)"
-          cd $PROJECT_PATH
+          cd "$PROJECT_PATH"
           godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -57,7 +57,7 @@ jobs:
         run: |
           mkdir -v -p build/linux
           EXPORT_DIR="$(readlink -f build)"
-          cd $PROJECT_PATH
+          cd "$PROJECT_PATH"
           godot --headless --verbose --export-release "Linux" "$EXPORT_DIR/linux/$EXPORT_NAME.x86_64"
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
